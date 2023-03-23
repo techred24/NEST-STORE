@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body } from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
@@ -9,7 +9,9 @@ export class ProductsController {
   // }
   @Get()
   consigueProductos(@Query('limit') limit = 100, @Query('offset') offset = 0, @Query('brand') brand:string) {
-    return `products: limit=> ${limit}, offset=> ${offset}, brand=> ${brand}`;
+    return {
+      message: `products: limit=> ${limit}, offset=> ${offset}, brand=> ${brand}`
+    };
   }
   // products/filter must be above products/:productId otherwise it'll cause conflict
   @Get('filter')
@@ -17,11 +19,21 @@ export class ProductsController {
     return 'Yo soy un filter';
   }
   @Get(':productId')
-  getProduct(@Param() params: any) {
+  getOne(@Param() params: any) {
     return `Parametros ${params.productId}`;
   }
   @Get(':pId')
   consigueProducto(@Param('productId') productId: string) {
     return `product ${productId}`;
+  }
+  // Receiving just one attribute
+  // create (@Body('price') price: number) {
+    @Post()
+    create (@Body() payload: any) {
+    console.log(payload)
+    return {
+      message: 'Acción de crear',
+      payload
+    }
   }
 }
