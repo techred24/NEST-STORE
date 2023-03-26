@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, Put, Delete } from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
@@ -22,10 +22,10 @@ export class ProductsController {
   getOne(@Param() params: any) {
     return `Parametros ${params.productId}`;
   }
-  @Get(':pId')
-  consigueProducto(@Param('productId') productId: string) {
-    return `product ${productId}`;
-  }
+  // @Get(':pId')
+  // consigueProducto(@Param('pId') productId: string) {
+  //   return `product ${productId}`;
+  // }
   // Receiving just one attribute
   // create (@Body('price') price: number) {
     @Post()
@@ -34,6 +34,19 @@ export class ProductsController {
     return {
       message: 'Acción de crear',
       payload
+    }
+  }
+  @Put(':id')
+  update(@Param('id') id: number, @Body() payload: any) {
+    return {
+      id,
+      payload
+    }
+  }
+  @Delete(':id')
+  delete(@Param('id') id: number) {
+    return {
+      id
     }
   }
 }
